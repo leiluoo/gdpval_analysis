@@ -20,18 +20,32 @@ SCRIPT_DIR = Path(__file__).parent
 TAG_DICT_PATH = SCRIPT_DIR / "rubric_tag_dict.json"
 
 ALL_TAGS = [
+    "calculation_formula",
+    "content_presence",
     "deliverable_format",
     "document_structure",
-    "content_presence",
-    "specific_value",
     "domain_knowledge",
+    "external_sourcing",
+    "instruction_follow",
     "reference_compliance",
-    "calculation_formula",
+    "specific_value",
     "visual_element",
     "writing_quality",
-    "instruction_follow",
-    "external_sourcing",
 ]
+
+TAG_DESC = {
+    "calculation_formula":  "计算/公式——算术、电子表格公式、派生数值是否正确",
+    "content_presence":     "内容存在性——所需元素/章节/主题是否出现在输出中",
+    "deliverable_format":   "交付件格式——输出文件类型/格式是否正确（PDF/Word/Excel 等）",
+    "document_structure":   "文档结构——章节、标题、表格布局、页面方向、工作表名称等",
+    "domain_knowledge":     "领域知识——医疗/法律/金融/工程等专业事实和规范的正确性",
+    "external_sourcing":    "外部引用——学术引用、网页链接、公开数据、权威来源的使用",
+    "instruction_follow":   "指令遵循——是否按提示要求的顺序、命名、包含/排除等约束执行",
+    "reference_compliance": "参考文件一致性——输出内容是否正确匹配任务附带的参考文件",
+    "specific_value":       "精确值——特定数字、文本、日期或命名实体是否准确无误",
+    "visual_element":       "视觉元素——图表、图标、流程图、舞台图等是否正确创建和摆放",
+    "writing_quality":      "写作质量——语气、专业语言、清晰度、风格和整体呈现质量",
+}
 
 
 def load_tag_dict() -> dict[str, str]:
@@ -127,6 +141,10 @@ def analyze(base: str, tag_dict: dict[str, str]) -> None:
         overall_sr = overall_score / overall_score_max if overall_score_max > 0 else 0.0
         print(f"  {'OVERALL':<23} {overall_pass:>6} {overall_total:>6}   {overall_pr:>7.1%}   {overall_sr:>8.1%}")
     print("=" * 72)
+
+    print("\n=== Tag 说明 ===")
+    for tag in sorted(TAG_DESC):
+        print(f"  {tag:<25} {TAG_DESC[tag]}")
 
     if unmatched_criteria:
         unique_unmatched = list(dict.fromkeys(unmatched_criteria))
