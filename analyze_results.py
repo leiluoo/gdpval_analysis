@@ -115,8 +115,7 @@ def analyze(base: str, tag_dict: dict[str, str]) -> None:
         overall_score += s["score_sum"]
         overall_score_max += s["score_max"]
 
-    # Sort by score_rate ascending (worst first) for easy identification of weak areas
-    rows.sort(key=lambda r: r[4])
+    rows.sort(key=lambda r: r[0])
 
     for tag, p, t, pr, sr, _, _ in rows:
         bar = "█" * int(sr * 20)
